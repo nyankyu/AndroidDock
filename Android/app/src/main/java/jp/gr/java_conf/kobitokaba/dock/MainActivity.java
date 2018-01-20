@@ -5,19 +5,14 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
-import android.hardware.SensorManager;
 import android.hardware.usb.UsbAccessory;
 import android.hardware.usb.UsbManager;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.os.ParcelFileDescriptor;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
-import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
@@ -25,7 +20,6 @@ import java.io.FileDescriptor;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements Runnable {
 
@@ -101,14 +95,10 @@ public class MainActivity extends AppCompatActivity implements Runnable {
         mLedStatusView = (TextView) findViewById(R.id.led_status);
         mStatusView = (TextView) findViewById(R.id.state);
 
-        mToggleButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                byte command = 0x1;
-                byte value = (byte) (isChecked ? 0x1 : 0x0);
-                sendCommand(command, value);
-            }
+        mToggleButton.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            byte command = 0x1;
+            byte value = (byte) (isChecked ? 0x1 : 0x0);
+            sendCommand(command, value);
         });
 
         enableControls(false);
