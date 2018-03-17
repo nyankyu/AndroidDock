@@ -2,7 +2,8 @@
 #include <Usb.h>
 #include <AndroidAccessory.h>
 
-#define LED 13
+#define IN1 8
+#define IN2 10
 
 AndroidAccessory acc (
   "kobitokaba",
@@ -17,7 +18,8 @@ void setup();
 void loop();
 
 void init_led() {
-  pinMode(LED, OUTPUT);
+  pinMode(IN1, OUTPUT);
+  pinMode(IN2, OUTPUT);
 }
 
 void setup() {
@@ -39,12 +41,14 @@ void loop() {
         if (len > 0) {
             if (msg[0] == 0x1) {
                 if(msg[1] == 0x1) {
-                    digitalWrite(LED, HIGH);
+                    digitalWrite(IN1, HIGH);
+                    digitalWrite(IN2, LOW);
                     msg[0] = 0x1;
                     msg[1] = 0x1;
                     acc.write(msg, 2);
                 } else {
-                    digitalWrite(LED, LOW);
+                    digitalWrite(IN1, LOW);
+                    digitalWrite(IN2, HIGH);
                     msg[0] = 0x1;
                     msg[1] = 0x2;
                     acc.write(msg, 2);
@@ -52,7 +56,8 @@ void loop() {
             }
         }
     } else {
-        digitalWrite(LED, LOW);
+        digitalWrite(IN1, HIGH);
+        digitalWrite(IN2, HIGH);
   }
   
     delay(10);
